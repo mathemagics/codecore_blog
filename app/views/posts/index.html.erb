@@ -1,0 +1,20 @@
+<%= form_tag posts_path, method: 'get' do%>
+<p>
+<%= text_field_tag :search, params[:search] %>
+<%= submit_tag :search, name: nil %>
+</p>
+<% end %>
+
+<table>
+  <% for post in @posts %>
+  <tr>
+    <td> <%= link_to post.title, post_path(post)%></td>
+    <td> Created By: <%= post.user.get_full_name %></td>
+  </tr>
+  <% end %>
+  <tr>
+    <td class="pages">
+        <%= paginate @posts %>
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,86 @@
+<table>
+
+  <tr>
+    <th>
+      title
+    </th>
+    <th>
+      body
+    </th>
+    <th>
+      category
+    </th>
+  </tr>
+
+  <tr>
+    <td>
+      <%= @post.title %>
+    </td>
+    <td>
+      <%= @post.body %>
+    </td>
+    <td>
+      <% if @post.category %>
+        <%= @post.category.title %>
+        <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <span> Created By: <%= @post.user.get_full_name %> </span>
+    </td>
+  </tr>
+  <% if can?(:manage, @post) %>
+  <tr>
+    <td>
+      <%= link_to 'Edit Post', edit_post_path(@post)%>
+      <%= link_to 'Delete Post', post_path(@post), method: :delete, data: {confirm: 'Are you sure'} %>
+    </td>
+  </tr>
+  <% end %>
+  <tr>
+    <td>
+      <% if @favourite.present? %>
+      <%= link_to 'Unfavourite', post_favourite_path(@post, @favourite), method: :delete%>
+      <% else %>
+      <%= link_to 'Favourite', post_favourites_path(@post), method: :post %>
+      <% end %>
+    </td>
+  </tr>
+
+</table>
+
+<%= form_for [@post, @comment] do |f|%>
+
+  <div class="add-comment">
+    <%= @comment.errors.full_messages.join() %>
+    <%= f.label :body, value: 'New Comment' %> <br>
+    <%= f.text_area :body %> <br>
+    <%= f.submit %>
+
+  </div>
+
+<% end %>
+
+<table>
+  <% @post.comments.each do |com| %>
+
+    <tr>
+      <td>
+        <%= com.body %>
+      </td>
+      <td>
+        By: <%= com.user.get_full_name %>
+      </td>
+    </tr>
+    
+    <% if can?(:manage, com) %>
+    <tr>
+      <td>
+        <%= link_to 'Delete Comment' %>
+      </td>
+    </tr>
+    <% end %>
+
+  <% end %>
+</table>

@@ -1,0 +1,30 @@
+<%= @post.errors.full_messages.join() + " " %>
+
+<%= form_for @post do |p| %>
+<table class="post-table">
+  <tr>
+    <td>
+      <%= p.text_field :title, placeholder: 'Post Title' %>
+    </td>
+  </tr>
+  <tr>
+
+  </tr>
+  <tr>
+
+    <td colspan="2">
+      <%= p.text_area :body, placeholder: 'Your dreams; your fears' %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <%= p.collection_select(  :category_id, Category.all, :id, :title,
+                                prompt: "Category") %>
+    </td>
+    <td>
+      <%= p.submit %>
+    </td>
+  </tr>
+</table>
+
+<% end %>
